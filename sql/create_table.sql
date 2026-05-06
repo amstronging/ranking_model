@@ -79,12 +79,12 @@ DROP INDEX idx_stores_join ON stores;
 DROP INDEX idx_trade_area_join ON trade_area;
 
 # 조인전 인덱스 생성
-CREATE INDEX idx_sales_join ON sales (`기준_년분기_코드`, `상권_코드`, `상권_구분_코드`, `서비스_업종_코드`);
-CREATE INDEX idx_stores_join ON stores (`기준_년분기_코드`, `상권_코드`, `상권_구분_코드`, `서비스_업종_코드`);
-CREATE INDEX idx_trade_area_join ON trade_area (`기준_년분기_코드`, `상권_코드`, `상권_구분_코드`);
+create index idx_sales_join ON sales (`기준_년분기_코드`, `상권_코드`, `상권_구분_코드`, `서비스_업종_코드`);
+create index idx_stores_join ON stores (`기준_년분기_코드`, `상권_코드`, `상권_구분_코드`, `서비스_업종_코드`);
+create index idx_trade_area_join ON trade_area (`기준_년분기_코드`, `상권_코드`, `상권_구분_코드`);
 
 # drop commercial_distinct table 
-DROP TABLE IF EXISTS commercial_distinct;
+drio table if exists commercial_distinct;
 
 # create table
 CREATE TABLE commercial_distinct AS
@@ -158,20 +158,18 @@ SELECT
     t.`서울_운영_영업_개월_평균`,
     t.`서울_폐업_영업_개월_평균`
 from sales s
-LEFT JOIN stores st
-	ON s.`기준_년분기_코드` = st.`기준_년분기_코드` 
-    AND s.`상권_코드` = st.`상권_코드`
-    AND s.`상권_구분_코드` = st.`상권_구분_코드`
-    AND s.`서비스_업종_코드` = st.`서비스_업종_코드`
-LEFT JOIN trade_area t
-    ON s.`기준_년분기_코드` = t.`기준_년분기_코드`
-    AND s.`상권_코드` = t.`상권_코드`
-    AND s.`상권_구분_코드` = t.`상권_구분_코드`;
+left join stores st
+	on s.`기준_년분기_코드` = st.`기준_년분기_코드` 
+    and s.`상권_코드` = st.`상권_코드`
+    and s.`상권_구분_코드` = st.`상권_구분_코드`
+    and s.`서비스_업종_코드` = st.`서비스_업종_코드`
+left join trade_area t
+    on s.`기준_년분기_코드` = t.`기준_년분기_코드`
+    and s.`상권_코드` = t.`상권_코드`
+    and s.`상권_구분_코드` = t.`상권_구분_코드`;
 
 desc commercial_distinct;
 
 -- 2. 컬럼 정보 확인
 show columns from sales like '기준_년분기_코드';
 show columns from sales like '상권_코드';
-
-이렇게 했으면 이제 파이썬에서 작성하면 되는거지?
